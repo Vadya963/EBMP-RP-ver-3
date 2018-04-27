@@ -701,7 +701,6 @@ function EngineState()
 		
 	if( isPlayerInVehicle( i ) )
 	{
-		local vehicleid = getPlayerVehicle(i);
 		if(sead[i] == 0)
 		{
 			if(dviglo[i] == 1)
