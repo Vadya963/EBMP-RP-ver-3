@@ -1,0 +1,13 @@
+<settings>
+    <hostname>EBMP-nonRP [only for players with Russian layout] || MAFIA 2 ONLINE RC4</hostname>
+    <serverip />
+    <port>27015</port>
+    <maxplayers>1000</maxplayers>
+    <weburl>www.mafia2-online.com</weburl>
+    <password />
+    <modules />
+    <resources>
+        <resource>ebmp</resource>
+    </resources>
+    <serverkey />
+</settings>
