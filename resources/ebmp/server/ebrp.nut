@@ -695,7 +695,10 @@ function EngineState()
 {
 	foreach(i, playername in getPlayers()) 
 	{
-
+		
+	local vehicleid = getPlayerVehicle(i);
+	local plate = getVehiclePlateText(vehicleid);
+		
 	if( isPlayerInVehicle( i ) )
 	{
 		local vehicleid = getPlayerVehicle(i);
@@ -715,6 +718,13 @@ function EngineState()
 				if(car_rental[i] != -1 && vehicleid == car_rental[i])
 				{
 					car_rental_fuel[i] = getVehicleFuel(vehicleid);
+				}
+				
+				local result = database.query( "SELECT COUNT() FROM carnumber_bd WHERE carnumber = '"+plate+"'" );
+			    	if(result[1]["COUNT()"] == 1)
+				{
+					setVehicleWheelTexture(vehicleid, 0, result[1]["wheel0"]);
+					setVehicleWheelTexture(vehicleid, 1, result[1]["wheel1"]);
 				}
 			}
 			else
