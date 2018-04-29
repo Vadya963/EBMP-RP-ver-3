@@ -720,8 +720,10 @@ function EngineState()
 				}
 				
 				local result = database.query( "SELECT COUNT() FROM carnumber_bd WHERE carnumber = '"+plate+"'" );
-			    	if(result[1]["COUNT()"] == 1)
+			    if(result[1]["COUNT()"] == 1)
 				{
+					result = database.query( "SELECT * FROM carnumber_bd WHERE carnumber = '"+plate+"'" );
+
 					setVehicleWheelTexture(vehicleid, 0, result[1]["wheel0"]);
 					setVehicleWheelTexture(vehicleid, 1, result[1]["wheel1"]);
 				}
@@ -739,30 +741,6 @@ function EngineState()
 
 function stats()
 {
-	log("");
-	log("[autosave "+chas+":"+min+"]");
-
-	foreach(i, playername in getPlayers())
-	{
-		if(logged[i] == 1)
-		{
-			sendPlayerMessage(i, "[autosave "+chas+":"+min+"]", turquoise[0], turquoise[1], turquoise[2]);
-
-			local myPos = getPlayerPosition( i );
-			local vehicleid = getPlayerVehicle(i);
-
-			database.query( "UPDATE account SET money = '"+money[i]+"', bank = '"+bank[i]+"', driverlic = '"+driverlic[i]+"', car_slot = '"+car_slot[i]+"', biznes = '"+biznes[i]+"', last_game = '"+getDateTime()+"', heal = '"+getPlayerHealth(i)+"', job = '"+job[i]+"', skin = '"+skin[i]+"', job_p = '"+job_p[i]+"', job_p1 = '"+job_p1[i]+"', exp = '"+exp[i]+"', can = '"+can[i]+"', weaponlic = '"+weaponlic[i]+"', bizneslic = '"+bizneslic[i]+"', crimes = '"+crimes[i]+"', arest = '"+arest[i]+"', tips = '"+tips[i]+"', car_rental_fuel = '"+car_rental_fuel[i]+"', drugs = '"+drugs[i]+"', fish = '"+fish[i]+"', house = '"+house[i]+"', house_x = '"+house_x[i]+"', house_y = '"+house_y[i]+"', house_z = '"+house_z[i]+"', house_gun = '"+house_gun[i]+"', gun = '"+gun[i]+"', aresttimer = '"+aresttimer[i]+"', serial = '"+getPlayerSerial(i)+"', ip = '"+getPlayerIP(i)+"' WHERE name = '"+playername+"'");
-
-			if(aresttimer[i] >= 0)
-			{
-			}
-			else
-			{
-				database.query( "UPDATE account SET spawnx = '"+myPos[0]+"', spawny = '"+myPos[1]+"', spawnz = '"+myPos[2]+"' WHERE name = '"+playername+"'");
-			}
-		}
-	}
-
 	database.query( "UPDATE biznes_bd SET price = '"+fuel_price+"', tanker = '"+fuel_tanker+"', money = '"+fuel_money+"', ownername = '"+fuel_ownername+"' WHERE name = 'Filling_Stations'");
 	database.query( "UPDATE biznes_bd SET price = '"+eda_price+"', tanker = '"+eda_tanker+"', money = '"+eda_money+"', ownername = '"+eda_ownername+"' WHERE name = 'Eda_Bar'");
 	database.query( "UPDATE biznes_bd SET price = '"+repair_price+"', tanker = '"+repair_tanker+"', money = '"+repair_money+"', ownername = '"+repair_ownername+"' WHERE name = 'Repair'");
@@ -782,6 +760,12 @@ function(playerid)
 			{
 				local vehicleid = getPlayerVehicle(playerid);
 				local plate = getVehiclePlateText(vehicleid);
+
+				if(getSpeed(vehicleid).tointeger() != 0)
+				{
+					sendPlayerMessage(playerid, "[ERROR] Остановите машину.", red[0], red[1], red[2] );
+					return;
+				}
 
 				local result = database.query( "SELECT COUNT() FROM carnumber_bd WHERE carnumber = '"+plate+"'" );
 			    if(result[1]["COUNT()"] == 1)
@@ -1151,6 +1135,12 @@ function playerDisconnect( playerid, reason )
 	if(logged[playerid] == 1)
 	{
 		logged[playerid] = 0;
+
+		local myPos = getPlayerPosition(playerid);
+		local playername = getPlayerName(playerid);
+		local vehicleid = getPlayerVehicle(playerid);
+
+		database.query( "UPDATE account SET money = '"+money[playerid]+"', bank = '"+bank[playerid]+"', driverlic = '"+driverlic[playerid]+"', car_slot = '"+car_slot[playerid]+"', biznes = '"+biznes[playerid]+"', last_game = '"+getDateTime()+"', heal = '"+getPlayerHealth(playerid);+"', job = '"+job[playerid]+"', skin = '"+skin[playerid]+"', job_p = '"+job_p[playerid]+"', job_p1 = '"+job_p1[playerid]+"', exp = '"+exp[playerid]+"', can = '"+can[playerid]+"', weaponlic = '"+weaponlic[playerid]+"', bizneslic = '"+bizneslic[playerid]+"', crimes = '"+crimes[playerid]+"', arest = '"+arest[playerid]+"', tips = '"+tips[playerid]+"', car_rental_fuel = '"+car_rental_fuel[playerid]+"', drugs = '"+drugs[playerid]+"', fish = '"+fish[playerid]+"', house = '"+house[playerid]+"', house_x = '"+house_x[playerid]+"', house_y = '"+house_y[playerid]+"', house_z = '"+house_z[playerid]+"', house_gun = '"+house_gun[playerid]+"', gun = '"+gun[playerid]+"', aresttimer = '"+aresttimer[playerid]+"', serial = '"+getPlayerSerial(playerid)+"', ip = '"+getPlayerIP(playerid)+"', spawnx = '"+myPos[0]+"', spawny = '"+myPos[1]+"', spawnz = '"+myPos[2]+"' WHERE name = '"+playername+"'");
 	}
 }
 addEventHandler( "onPlayerDisconnect", playerDisconnect );
@@ -1682,6 +1672,10 @@ function( playerid, cmd )
 
 					callEvent("car_rental_spawn", playerid, 42, result[1]["spawnx"]-5, result[1]["spawny"], result[1]["spawnz"]+2, 0.0, 255, 255, 255, 0, 0, 0, car_rental_fuel[playerid] );
 				}
+				else
+				{
+					setPlayerModel(playerid, skin[playerid]);
+				}
 
 				if(job[playerid] == 7)
 				{
@@ -1702,7 +1696,6 @@ function( playerid, cmd )
 					givePlayerWeapon(playerid, gun[playerid], 300);
 				}
 
-				setPlayerModel(playerid, skin[playerid]);
 				setPlayerHealth(playerid, result[1]["heal"]);
 				setPlayerPosition( playerid, result[1]["spawnx"], result[1]["spawny"], result[1]["spawnz"] );
 
@@ -5776,7 +5769,6 @@ function( playerid, id)
 
 		money[playerid] -= motor_show[id][1];
 		sendPlayerMessage(playerid, "Вы купили машину за " +motor_show[id][1]+ "$ с номером "+number, orange[0], orange[1], orange[2] );
-		sendPlayerMessage(playerid, "Пропишите /парковка, чтобы сохранить местоположение своего авто.", yellow[0], yellow[1], yellow[2] );
 
 	car_slot[playerid] += 1;
 
@@ -6060,6 +6052,7 @@ function playerEnteredVehicle( playerid, vehicleid, seat )
 	if(sead[playerid] == 0)
 	{
 		sendPlayerMessage( playerid, "Чтобы завести (заглушить) двигатель нажмите Q", yellow[0], yellow[1], yellow[2] );
+		sendPlayerMessage(playerid, "Пропишите /парковка, чтобы сохранить местоположение своего авто.", yellow[0], yellow[1], yellow[2] );
 	}
 
 	local plate = getVehiclePlateText(vehicleid);
@@ -7666,7 +7659,7 @@ function(playerid)
 		sendPlayerMessage(playerid, "/слоты и указать сумму - сыграть в слоты", yellow[0], yellow[1], yellow[2] );
 	}
 });
-/*
+
 // [1,3,5,7,9,12,14,16,18,19,21,23,25,27,30,32,34,36]
 // [2,4,6,8,10,11,13,15,17,20,22,24,26,28,29,31,33,35]
 
@@ -7764,27 +7757,6 @@ function(playerid, id, cash)
 		    	}
 	    	}
 
-	    	if(id == "2-1" || id == "2-2" || id == "2-3")
-		    {
-		    	for (local i = 0; i < chislo_to; i++)
-		    	{
-			        if(id == "2-1" && randomize == to1[i] )
-			        {
-			            win_roulette(playerid, cash, 5);
-			        }
-
-			       	if(id == "2-2" && randomize == to2[i])
-			        {
-			            win_roulette(playerid, cash, 5);
-			        }
-
-			        if(id == "2-3" && randomize == to3[i])
-			        {
-			            win_roulette(playerid, cash, 5);
-			        }
-		    	}
-	    	}
-
 	    		if(id == "четное" && randomize%2 == 0 )
 		        {
 		            win_roulette(playerid, cash, 2);
@@ -7797,28 +7769,49 @@ function(playerid, id, cash)
 
 		        if(id == "1-18" && randomize >= 1 && randomize <= 18 )
 		        {
-		            win_roulette(playerid, cash, 3);
+		            win_roulette(playerid, cash, 2);
 		        }
 
 		       	if(id == "19-36" && randomize >= 19 && randomize <= 36 )
 		        {
-		            win_roulette(playerid, cash, 3);
+		            win_roulette(playerid, cash, 2);
 		        }
 
 		        if(id == "1-12" && randomize >= 1 && randomize <= 12 )
 		        {
-		            win_roulette(playerid, cash, 4);
+		            win_roulette(playerid, cash, 3);
 		        }
 
 		        if(id == "2-12" && randomize >= 13 && randomize <= 24 )
 		        {
-		            win_roulette(playerid, cash, 4);
+		            win_roulette(playerid, cash, 3);
 		        }
 
 		        if(id == "3-12" && randomize >= 25 && randomize <= 36 )
 		        {
-		            win_roulette(playerid, cash, 4);
+		            win_roulette(playerid, cash, 3);
 		        }
+
+			if(id == "2-1" || id == "2-2" || id == "2-3")
+		    {
+		    	for (local i = 0; i < chislo_to; i++)
+		    	{
+			        if(id == "2-1" && randomize == to1[i] )
+			        {
+			            win_roulette(playerid, cash, 3);
+			        }
+
+			       	if(id == "2-2" && randomize == to2[i])
+			        {
+			            win_roulette(playerid, cash, 3);
+			        }
+
+			        if(id == "2-3" && randomize == to3[i])
+			        {
+			            win_roulette(playerid, cash, 3);
+			        }
+		    	}
+	    	}
 	    }
 	}
 	else
@@ -7826,7 +7819,7 @@ function(playerid, id, cash)
 		sendPlayerMessage(playerid, "[ERROR] Езжайте в казино(кубок на карте)", red[0], red[1], red[2]);
 	}
 });
-*/
+
 
 addCommandHandler("слоты",
 function(playerid, cash)
