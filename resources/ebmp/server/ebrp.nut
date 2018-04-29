@@ -7655,7 +7655,7 @@ function(playerid)
 	if(check)
 	{
 		sendPlayerMessage(playerid, "====[ Команды ]====", yellow[0], yellow[1], yellow[2] );
-		//sendPlayerMessage(playerid, "/рулетка выбрать режим игры (красное, черное, четное, нечетное, 1-18, 19-36, 1-12, 2-12, 3-12, 2-1, 2-2, 2-3) и указать сумму - сыграть в рулетку (например: /рулетка 1-18 200)", yellow[0], yellow[1], yellow[2] );
+		sendPlayerMessage(playerid, "/рулетка выбрать режим игры (красное, черное, четное, нечетное, 1-18, 19-36, 1-12, 2-12, 3-12, 2-1, 2-2, 2-3) и указать сумму - сыграть в рулетку (например: /рулетка 1-18 200)", yellow[0], yellow[1], yellow[2] );
 		sendPlayerMessage(playerid, "/слоты и указать сумму - сыграть в слоты", yellow[0], yellow[1], yellow[2] );
 	}
 });
