@@ -1146,6 +1146,9 @@ function playerDisconnect( playerid, reason )
 			}
 		}
 
+		log("");
+		log("[delet_car_job] "+getPlayerName(playerid)+" ["+getVehicleModel(car_rental[playerid])+"]");
+
 		local rTimer = timer( delet_car_job, 1000, 1, playerid );
 		
 		logged[playerid] = 0;
@@ -2482,9 +2485,6 @@ function( playerid )
 		}
 
 		local rTimer = timer( delet_car_job, 1000, 1, playerid );
-
-		log("");
-		log("[delet job driver] "+getPlayerName(playerid));
 	}
 });
 
@@ -3477,9 +3477,6 @@ function( playerid )
 		}
 
 		local rTimer = timer( delet_car_job, 1000, 1, playerid );
-
-		log("");
-		log("[delet job bus] "+getPlayerName(playerid));
 	}
 });
 
