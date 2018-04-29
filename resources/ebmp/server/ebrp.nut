@@ -1134,6 +1134,20 @@ function playerDisconnect( playerid, reason )
 {
 	if(logged[playerid] == 1)
 	{
+		if(car_rental[playerid] != -1)
+		{
+			foreach(i, playername in getPlayers())
+			{
+				local carid = getPlayerVehicle(i);
+				if(isPlayerInVehicle(i) && carid == car_rental[playerid])
+				{
+					removePlayerFromVehicle(i);
+				}
+			}
+		}
+
+		local rTimer = timer( delet_car_job, 1000, 1, playerid );
+		
 		logged[playerid] = 0;
 
 		local myPos = getPlayerPosition(playerid);
@@ -7741,21 +7755,21 @@ function(playerid, id, cash)
 
 	    	money[playerid] -= cash;
 
-	    	if(id == "красное" || id == "черное" )
-		    {
-		    	for (local i = 0; i < chislo; i++)
-		    	{
-			        if(id == "красное" && randomize == red[i] )
-			        {
-			            win_roulette(playerid, cash, 2);
-			        }
+		    	if(id == "красное" || id == "черное" )
+			    {
+			    	for (local i = 0; i < chislo; i++)
+			    	{
+				        if(id == "красное" && randomize == red[i] )
+				        {
+				            win_roulette(playerid, cash, 2);
+				        }
 
-			       	if(id == "черное" && randomize == black[i])
-			        {
-			            win_roulette(playerid, cash, 2);
-			        }
+				       	if(id == "черное" && randomize == black[i])
+				        {
+				            win_roulette(playerid, cash, 2);
+				        }
+			    	}
 		    	}
-	    	}
 
 	    		if(id == "четное" && randomize%2 == 0 )
 		        {
@@ -7792,26 +7806,26 @@ function(playerid, id, cash)
 		            win_roulette(playerid, cash, 3);
 		        }
 
-			if(id == "2-1" || id == "2-2" || id == "2-3")
-		    {
-		    	for (local i = 0; i < chislo_to; i++)
-		    	{
-			        if(id == "2-1" && randomize == to1[i] )
-			        {
-			            win_roulette(playerid, cash, 3);
-			        }
+				if(id == "2-1" || id == "2-2" || id == "2-3")
+			    {
+			    	for (local i = 0; i < chislo_to; i++)
+			    	{
+				        if(id == "2-1" && randomize == to1[i] )
+				        {
+				            win_roulette(playerid, cash, 3);
+				        }
 
-			       	if(id == "2-2" && randomize == to2[i])
-			        {
-			            win_roulette(playerid, cash, 3);
-			        }
+				       	if(id == "2-2" && randomize == to2[i])
+				        {
+				            win_roulette(playerid, cash, 3);
+				        }
 
-			        if(id == "2-3" && randomize == to3[i])
-			        {
-			            win_roulette(playerid, cash, 3);
-			        }
+				        if(id == "2-3" && randomize == to3[i])
+				        {
+				            win_roulette(playerid, cash, 3);
+				        }
+			    	}
 		    	}
-	    	}
 	    }
 	}
 	else
