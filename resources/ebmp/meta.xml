@@ -3,6 +3,7 @@
 	
 	<script type="client">login_gui.nut</script>
 	<script type="client">stats.nut</script>
+	<script type="client">3dtext.nut</script>
 	
 	<script type="server">ebrp.nut</script>
 	<script type="server">tp.nut</script>
