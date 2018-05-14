@@ -15,7 +15,7 @@ dofile("resources/ebmp/server/easyini.nut");
 
 local script = "ebrp";
 local database = sqlite( "ebmp-rp.db" );//база данных игроков
-local upd = "UPDATE: 24.04.2018";
+local upd = "UPDATE: 30.04.2018";
 local pogoda = true;//включенно лето, false - зима
 local novosti = 0;//в разработке
 local me_radius = 10.0;//радиус отображения действий игрока в чате
@@ -54,7 +54,7 @@ local fuel_tanker = 0;
 local fuel_ownername = "0";
 local fuel_money = 0;
 local fuel_nalog = 4000/ratiopd;
-local fuel_buybiznes = 200000;
+local fuel_buybiznes = 150000;
 
 //закусочные + бары
 local eda_price = 0;
@@ -62,7 +62,7 @@ local eda_tanker = 0;
 local eda_ownername = "0";
 local eda_money = 0;
 local eda_nalog = 4000/ratiopd;
-local eda_buybiznes = 200000;
+local eda_buybiznes = 150000;
 
 //автомастерские
 local repair_price = 0;
@@ -70,7 +70,7 @@ local repair_tanker = 0;
 local repair_ownername = "0";
 local repair_money = 0;
 local repair_nalog = 4000/ratiopd;
-local repair_buybiznes = 200000;
+local repair_buybiznes = 150000;
 
 //оружейки
 local gun_price = 0;
@@ -78,7 +78,7 @@ local gun_tanker = 0;
 local gun_ownername = "0";
 local gun_money = 0;
 local gun_nalog = 4000/ratiopd;
-local gun_buybiznes = 200000;
+local gun_buybiznes = 150000;
 
 //курс
 local course_fuel = 0;
@@ -193,9 +193,10 @@ local no_skin_chislo = 34;
 local no_skin = [0,3,11,14,15,16,21,23,25,26,29,30,31,33,34,36,75,76,82,128,136,155,156,157,158,159,160,161,165,166,167,168,169,170];
 
 //киоски
-local kiosk_chislo = 42;
+local kiosk_chislo = 43;
 local kiosk = [
 [-632.282,955.495,-17.7324],//место погрузки сигарет
+[2.48129,714.517,-22.2154],
 [400.47,745.517,-24.6665],
 [164.257,657.558,-21.9641],
 [33.6884,599.201,-19.9273],
@@ -341,6 +342,7 @@ local weather_server_false = [
 //время сервера
 local chas = 0;
 local min = 0;
+local sec = 0;
 
 //переменные игрока(сох-ся)
 local money = array(getMaxPlayers(), 0);
@@ -399,6 +401,7 @@ function timeserver()
 	local date = split(getDateTime(), ": ");//установка времени
     chas = date[3].tointeger();
     min = date[4].tointeger();
+    sec = date[5].tointeger();
 
 	foreach(i, playername in getPlayers()) 
 	{
@@ -466,9 +469,7 @@ function(number)
 	setVehicleWheelTexture( vehicleid, 0, result[1]["wheel0"]);
 	setVehicleWheelTexture( vehicleid, 1, result[1]["wheel1"]);
 
-	log("");
 	log("[car_spawn] "+number);
-	log("");
 });
 
 function timesever_pogoda()
@@ -747,49 +748,6 @@ function stats()
 	database.query( "UPDATE biznes_bd SET price = '"+gun_price+"', tanker = '"+gun_tanker+"', money = '"+gun_money+"', ownername = '"+gun_ownername+"' WHERE name = 'Gun'");
 }
 
-addCommandHandler("парковка", 
-function(playerid) 
-{
-	if(logged[playerid] == 0)
-	{
-		sendPlayerMessage(playerid, "[ERROR] Вы не вошли!", red[0], red[1], red[2] );
-		return;
-	}
-
-			if( isPlayerInVehicle( playerid ) && dviglo[playerid] == 1 )
-			{
-				local vehicleid = getPlayerVehicle(playerid);
-				local plate = getVehiclePlateText(vehicleid);
-
-				if(getSpeed(vehicleid).tointeger() != 0)
-				{
-					sendPlayerMessage(playerid, "[ERROR] Остановите машину.", red[0], red[1], red[2] );
-					return;
-				}
-
-				local result = database.query( "SELECT COUNT() FROM carnumber_bd WHERE carnumber = '"+plate+"'" );
-			    if(result[1]["COUNT()"] == 1)
-			    {
-					local carpos = getVehiclePosition(vehicleid);
-					local carrot = getVehicleRotation(vehicleid);
-					local color = getVehicleColour(vehicleid);
-
-					database.query( "UPDATE carnumber_bd SET fuel = '"+getVehicleFuel(vehicleid)+"', spawnx = '"+carpos[0]+"', spawny = '"+carpos[1]+"', spawnz = '"+carpos[2]+"', rot = '"+carrot[0]+"', dirtlvl = '"+getVehicleDirtLevel(vehicleid)+"', probeg = '"+probeg[playerid]+"', tune = '"+getVehicleTuningTable(vehicleid)+"', color0 = '"+fromRGB(color[0], color[1], color[2])+"', color1 = '"+fromRGB(color[3], color[4], color[5])+"' WHERE carnumber = '"+plate+"'");
-
-					result = database.query( "SELECT * FROM carnumber_bd WHERE carnumber = '"+plate+"'" );
-
-					setVehicleWheelTexture(vehicleid, 0, result[1]["wheel0"]);
-					setVehicleWheelTexture(vehicleid, 1, result[1]["wheel1"]);
-
-					sendPlayerMessage(playerid, "Вы припарковали своё авто.", yellow[0], yellow[1], yellow[2]);
-				}
-			}
-			else
-			{
-				sendPlayerMessage(playerid, "[ERROR] Вы не завели двигатель или вы не в машине.", red[0], red[1], red[2]);
-			}
-});
-
 local random_tips = 0;
 function tips_player()
 {
@@ -799,12 +757,12 @@ function tips_player()
 		{
 			if(random_tips == 0)
 			{
-				sendPlayerMessage(i, "[ПОДСКАЗКА] ЖДИТЕ AUTOSAVE ИНАЧЕ ВАШИ ДАННЫЕ НЕ СОХРАНЯТЬСЯ!!!", color_tips[0], color_tips[1], color_tips[2]);
+				sendPlayerMessage(i, "[ПОДСКАЗКА] Переключение чатов осуществляется нажатием TAB", color_tips[0], color_tips[1], color_tips[2]);
 			}
 
 			if(random_tips == 1)
 			{
-				sendPlayerMessage(i, "[ПОДСКАЗКА] Переключение чатов осуществляется нажатием TAB", color_tips[0], color_tips[1], color_tips[2]);
+				sendPlayerMessage(i, "[ПОДСКАЗКА] Самая дешевая машина стоит 5000$", color_tips[0], color_tips[1], color_tips[2]);
 			}
 
 			if(random_tips == 2)
@@ -947,6 +905,8 @@ function(playerid)
 function scriptInit()
 {
 	log( script + " Loaded!" );
+	log("");
+
     setGameModeText( "vk.com/ebmprp "+upd );
     setMapName( "Empire Bay" );
     setSummer(pogoda);
@@ -956,7 +916,7 @@ function scriptInit()
     min = date[4].tointeger();
 
     //сейв в базу данных
-    local stats_timer = timer( stats, 120000, -1 );//статистика сервера, сохранение в бд
+    local stats_timer = timer( stats, 600000, -1 );//статистика сервера, сохранение в бд
 
     local rTimer = timer( timeserver, 1000, -1 );//инфа денег, времени и инфы бизнеса
     local rTimer = timer( timesever_pogoda, 900000, -1 );//погода и payday
@@ -1111,6 +1071,8 @@ function playerConnect( playerid, name, ip, serial )
 	sendPlayerMessage(playerid, "Звезды на карте это работы.", green[0], green[1], green[2]);
 	sendPlayerMessage(playerid, "Пополнить здоровье вы можете в закусочных.", 255, 100, 100);
 	sendPlayerMessage(playerid, "Удачной игры.", turquoise[0], turquoise[1], turquoise[2]);
+
+	setPlayerColour(playerid, fromRGB(255,255,130));
 }
 addEventHandler( "onPlayerConnect", playerConnect );
 
@@ -1251,6 +1213,7 @@ function playerDeath( playerid, killerid )
 }
 addEventHandler( "onPlayerDeath", playerDeath );
 
+//чат
 addEventHandler("onPlayerChat",
 function(playerid, text) 
 {
@@ -1268,12 +1231,12 @@ function(playerid, text)
 			local check = isPointInCircle3D( myPos[0], myPos[1], myPos[2], pos[0], pos[1], pos[2], me_radius );
 			if(check)
 			{
-				sendPlayerMessage( i, "(РП чат "+me_radius+"м) Player ["+playerid+"]: " + text, 255, 255, 130 );
+				sendPlayerMessage( i, "(РП чат "+me_radius+"м) "+getPlayerName( playerid )+" ["+playerid+"]: " + text, 255, 255, 130 );
 			}
 		}
 
 		log("");
-		log("(RP chat "+me_radius+"m) "+getPlayerName( playerid )+ " [" +playerid+"]: " + text);
+		log("(RP chat "+me_radius+"m) "+getPlayerName( playerid )+" [" +playerid+"]: " + text);
 	}
 	else if(chat[playerid] == 1)
 	{
@@ -1333,8 +1296,8 @@ function( playerid, id, ...)
 		text = text + " " + vargv[i];
 	}
 
-	sendPlayerMessage( playerid, "(ПИСЬМО) К Player ["+id+"]:"+text, yellow[0], yellow[1], yellow[2] );
-	sendPlayerMessage( id, "(ПИСЬМО) От Player ["+playerid+"]:"+text, yellow[0], yellow[1], yellow[2] );
+	sendPlayerMessage( playerid, "(ПИСЬМО) К "+getPlayerName( playerid )+" ["+id+"]:"+text, yellow[0], yellow[1], yellow[2] );
+	sendPlayerMessage( id, "(ПИСЬМО) От "+getPlayerName( playerid )+" ["+playerid+"]:"+text, yellow[0], yellow[1], yellow[2] );
 
 	log("");
 	log("(LETTER) OT "+getPlayerName( playerid )+" K "+getPlayerName(id)+":"+text);
@@ -1392,7 +1355,7 @@ function( playerid, ...)
 	{
 		if(job[i] == 5)
 		{
-			sendPlayerMessage(i, "[Рация police] Player ["+playerid+"]:"+text, blue[0], blue[1], blue[2] );
+			sendPlayerMessage(i, "[Рация police] "+getPlayerName( playerid )+" ["+playerid+"]:"+text, blue[0], blue[1], blue[2] );
 		}
 	}
 
@@ -4141,12 +4104,10 @@ function( playerid, number )
 	local number = number.tostring();
 
 	local myPos = getPlayerPosition( playerid );
-	local check = isPointInCircle3D( myPos[0], myPos[1], myPos[2], -378.987, 654.699, -11.5013, 2.0 );
-	if(check)
-	{
-		local vehicleid = getPlayerVehicle(playerid);
-		local model = getVehicleModel(vehicleid);
+	local vehicleid = getPlayerVehicle(playerid);
 
+	if(isPlayerInVehicle(playerid) && getVehicleModel(vehicleid) == 42 && job[playerid] == 5)
+	{
 			local result = database.query( "SELECT COUNT() FROM carnumber_bd WHERE carnumber = '"+number+"'" );
 			if(result[1]["COUNT()"] == 1)
 			{
@@ -4162,7 +4123,7 @@ function( playerid, number )
 	}
 	else
 	{
-		sendPlayerMessage(playerid, "[ERROR] Вы далеко от EBPD.", red[0], red[1], red[2] );
+		sendPlayerMessage(playerid, "[ERROR] Вы не в полицейской машине.", red[0], red[1], red[2] );
 	}
 });
 
@@ -4176,9 +4137,6 @@ function( playerid, number )
 	}
 
 	local number = number.tostring();
-
-		local vehicleid = getPlayerVehicle(playerid);
-		local model = getVehicleModel(vehicleid);
 
 			local result = database.query( "SELECT COUNT() FROM carnumber_bd WHERE carnumber = '"+number+"'" );
 			if(result[1]["COUNT()"] == 1)
@@ -5731,7 +5689,21 @@ addCommandHandler( "автосалон",
 function( playerid, id)
 {
 	local id = id.tointeger();
-	local number = "eb-"+random(0,999);
+	local randomize = random(0,999);
+	local number;
+
+	if(randomize >= 0 && randomize <= 9)
+	{
+		number = "eb-00"+randomize;
+	}
+	else if(randomize >= 10 && randomize <= 99)
+	{
+		number = "eb-0"+randomize;
+	}
+	else
+	{
+		number = "eb-"+randomize;
+	}
 
 	if(logged[playerid] == 0)
 	{
@@ -5996,7 +5968,6 @@ function( playerid, player, number)
 {
 	local player = player.tointeger();
 	local number = number.tostring();
-	local result;
 
 	if(logged[playerid] == 0)
 	{
@@ -6024,8 +5995,14 @@ function( playerid, player, number)
 		local result = database.query( "SELECT COUNT() FROM carnumber_bd WHERE carnumber = '"+number+"'" );
 		if(result[1]["COUNT()"] == 1)
 		{
-
 			result = database.query( "SELECT * FROM carnumber_bd WHERE carnumber = '"+number+"'" );
+
+			if(result[1]["ownername"] != getPlayerName(playerid))
+			{
+				sendPlayerMessage(playerid, "[ERROR] Это не ваше авто.", red[0], red[1], red[2] );
+				return;
+			}
+			
 			database.query( "UPDATE carnumber_bd SET ownername_key = '"+getPlayerName(player)+"' WHERE carnumber = '"+number+"'");
 
 				foreach(i, playername in getPlayers()) 
@@ -6035,7 +6012,7 @@ function( playerid, player, number)
 					local check = isPointInCircle3D( myPos[0], myPos[1], myPos[2], pos[0], pos[1], pos[2], me_radius );
 					if(check)
 					{
-						sendPlayerMessage( i, "Player["+playerid+"] передал Player["+player+"] ключ от " +id+ " машины.", pink[0], pink[1], pink[2] );
+						sendPlayerMessage( i, "Player["+playerid+"] передал Player["+player+"] ключ от " +number, pink[0], pink[1], pink[2] );
 					}
 				}
 		}
@@ -6063,7 +6040,6 @@ function playerEnteredVehicle( playerid, vehicleid, seat )
 	if(sead[playerid] == 0)
 	{
 		sendPlayerMessage( playerid, "Чтобы завести (заглушить) двигатель нажмите Q", yellow[0], yellow[1], yellow[2] );
-		sendPlayerMessage(playerid, "Пропишите /парковка, чтобы сохранить местоположение своего авто.", yellow[0], yellow[1], yellow[2] );
 	}
 
 	local plate = getVehiclePlateText(vehicleid);
@@ -6100,6 +6076,23 @@ addEventHandler("onPlayerVehicleExit",
 function(playerid, vehicleid, seat)
 {
 	dviglo[playerid] = 0;
+
+	local plate = getVehiclePlateText(vehicleid);
+
+	if(sead[playerid] == 0)
+	{
+		local result = database.query( "SELECT COUNT() FROM carnumber_bd WHERE carnumber = '"+plate+"'" );
+		if(result[1]["COUNT()"] == 1)
+		{
+			local carpos = getVehiclePosition(vehicleid);
+			local carrot = getVehicleRotation(vehicleid);
+			local color = getVehicleColour(vehicleid);
+
+			database.query( "UPDATE carnumber_bd SET fuel = '"+getVehicleFuel(vehicleid)+"', spawnx = '"+carpos[0]+"', spawny = '"+carpos[1]+"', spawnz = '"+carpos[2]+"', rot = '"+carrot[0]+"', dirtlvl = '"+getVehicleDirtLevel(vehicleid)+"', probeg = '"+probeg[playerid]+"', tune = '"+getVehicleTuningTable(vehicleid)+"', color0 = '"+fromRGB(color[0], color[1], color[2])+"', color1 = '"+fromRGB(color[3], color[4], color[5])+"' WHERE carnumber = '"+plate+"'");
+
+			result = database.query( "SELECT * FROM carnumber_bd WHERE carnumber = '"+plate+"'" );
+		}
+	}
 });
 
 addEventHandler( "en",//отвечает за включение или отключение двигателя

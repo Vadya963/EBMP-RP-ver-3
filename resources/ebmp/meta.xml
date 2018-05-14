@@ -1,6 +1,6 @@
 <meta>
 	<script type="client">fps.nut</script>
-	<script type="client">3dtext.nut</script>
+	
 	<script type="client">login_gui.nut</script>
 	<script type="client">stats.nut</script>
 	

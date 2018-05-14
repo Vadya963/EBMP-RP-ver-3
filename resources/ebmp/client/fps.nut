@@ -77,8 +77,8 @@ function( id1, id2 )
 
 function init()
 {
-	setRenderNametags(false);
-	setRenderHealthbar(false);
+	setRenderNametags(true);
+	setRenderHealthbar(true);
 }
 addEventHandler( "onClientScriptInit", init );
 
@@ -451,72 +451,3 @@ function(post)
 		dxDrawText( "Нажмите Е чтобы пассажир сел(вышел)", 0.0, (screen[1]-40), fromRGB( 255, 255, 255 ), true, "tahoma-bold", 2.0 );
 	}
 });
-
-// nametags.nut
-local vectors = {};
-local text;
-local dimensions;
-local boxWidth = 68.0;
-local boxHeight = 10.0;
-
-function framePreRender( )
-{
-    for( local i = 0; i < MAX_PLAYERS; i++ )
-    {
-        if( i != getLocalPlayer() && isPlayerConnected(i) )
-        {			
-            // Get the player position
-			local pos = getPlayerPosition( i );
-			
-        	// Get the screen position from the world
-        	vectors[i] <- getScreenFromWorld( pos[0], pos[1], (pos[2] + 2.0) );
-        }
-    }
-}
-addEventHandler( "onClientFramePreRender", framePreRender );
-
-function frameRender( post_gui )
-{
-    if( !post_gui )
-	{
-		foreach (i, playername in getPlayers())
-		{
-			if( i != getLocalPlayer() && isPlayerConnected(i) && isPlayerOnScreen(i) )
-			{
-            	local pos = getPlayerPosition( i );
-            	local lclPos = getPlayerPosition( getLocalPlayer() );
-            	local fDistance = getDistanceBetweenPoints3D( pos[0], pos[1], pos[2], lclPos[0], lclPos[1], lclPos[2] );
-            				
-            	if( fDistance <= 10.0 )
-				{
-                	local fScale = 1.0;
-                					
-                	text = "Player (" + i.tostring() + ")";
-                	dimensions = dxGetTextDimensions( text, fScale, "tahoma-bold" );
-                	
-					dxDrawText( text, (vectors[i][0] - (dimensions[0] / 2)), vectors[i][1], fromRGB( 255, 255, 130 ), true, "tahoma-bold", fScale );
-					
-					local healthWidth = (((clamp( 0.0, getPlayerHealth( i ), 720.0 ) * 100.0) / 720.0) / 100 * (boxWidth - 4.0));
-                	dxDrawRectangle( ((vectors[i][0] - (boxWidth / 2)) + 2.0), (vectors[i][1] + 18.0), (boxWidth - 4.0), (boxHeight - 4.0), fromRGB( 100, 100, 100, 255 ) );
-					
-					if( getPlayerHealth( i ) >= 504.0 )
-					{
-						dxDrawRectangle( ((vectors[i][0] - (boxWidth / 2)) + 2.0), (vectors[i][1] + 18.0), healthWidth, (boxHeight - 4.0), fromRGB( 0, 255, 0, 255 ) );
-						return;
-					}
-					if(getPlayerHealth( i ) > 288.0 && getPlayerHealth( i ) < 504.0 )
-					{
-						dxDrawRectangle( ((vectors[i][0] - (boxWidth / 2)) + 2.0), (vectors[i][1] + 18.0), healthWidth, (boxHeight - 4.0), fromRGB( 255, 255, 0, 255 ) );
-						return;
-					}
-					if( getPlayerHealth( i ) <= 288.0 )
-					{
-						dxDrawRectangle( ((vectors[i][0] - (boxWidth / 2)) + 2.0), (vectors[i][1] + 18.0), healthWidth, (boxHeight - 4.0), fromRGB( 255, 0, 0, 255 ) );
-						return;
-					}
-                }
-            }
-        }
-    }
-}
-addEventHandler( "onClientFrameRender", frameRender )

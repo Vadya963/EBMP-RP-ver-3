@@ -308,7 +308,7 @@ addEventHandler( "help_player",
 function( playerid )
 {
 	local help_width = 600.0;
-	local help_height = 520.0+(25.0*2)+10.0;
+	local help_height = 480.0+(25.0*2)+10.0;
 
 	showCursor( true );
 
@@ -322,8 +322,8 @@ function( playerid )
 	local help = guiCreateElement( 6, "/документы (ид игрока) - показать документы игроку", 10.0, 100.0, text_width, 25.0, false, stats_window );
 	local help = guiCreateElement( 6, "/лицензии (ид игрока) - показать лицензии игроку", 10.0, 120.0, text_width, 25.0, false, stats_window );
 	local help = guiCreateElement( 6, "/ключ (ид игрока) (номер машины) - передать ключ от машины игроку", 10.0, 140.0, text_width, 25.0, false, stats_window );
-	local help = guiCreateElement( 6, "/владелец (номер машины) - узнать владельца авто (около EBPD)", 10.0, 160.0, text_width, 25.0, false, stats_window );
-	local help = guiCreateElement( 6, "/парковка - припарковать своё авто", 10.0, 180.0, text_width, 25.0, false, stats_window );
+	local help = guiCreateElement( 6, "/поиск (номер машины) - найти свою машину", 10.0, 160.0, text_width, 25.0, false, stats_window );
+	local help = guiCreateElement( 6, "/сдаться - явка с повинной у ПД (сидеть в 2 раза меньше)", 10.0, 180.0, text_width, 25.0, false, stats_window );
 	local help = guiCreateElement( 6, "/приобрести бизнес - нужно находится около бизнеса", 10.0, 200.0, text_width, 25.0, false, stats_window );
 	local help = guiCreateElement( 6, "/продать бизнес (ид игрока) - отдать бизнес игроку", 10.0, 220.0, text_width, 25.0, false, stats_window );
 	local help = guiCreateElement( 6, "/цена - установить цену за товар для бизнесов", 10.0, 240.0, text_width, 25.0, false, stats_window );
@@ -339,17 +339,15 @@ function( playerid )
 	local help = guiCreateElement( 6, "/сейф - положить(забрать) оружие (около дома)", 10.0, 440.0, text_width, 25.0, false, stats_window );
 	local help = guiCreateElement( 6, "/покушать - пополнить хп (около дома)", 10.0, 460.0, text_width, 25.0, false, stats_window );
 	local help = guiCreateElement( 6, "/показать дом (ид игрока) - показать дом на карте", 10.0, 480.0, text_width, 25.0, false, stats_window );
-	local help = guiCreateElement( 6, "/сдаться - явка с повинной у ПД (сидеть в 2 раза меньше)", 10.0, 500.0, text_width, 25.0, false, stats_window );
-	local help = guiCreateElement( 6, "/поиск (номер машины) - найти свою машину", 10.0, 520.0, text_width, 25.0, false, stats_window );
 
-	close_window = guiCreateElement( 2, "Закрыть", 10.0, 520.0+25.0, help_width-20.0, 25.0, false, stats_window );
+	close_window = guiCreateElement( 2, "Закрыть", 10.0, 480.0+25.0, help_width-20.0, 25.0, false, stats_window );
 });
 
 addEventHandler( "help_cops",
 function( playerid )
 {
 	local help_width = 600.0;
-	local help_height = 200.0+(25.0*2)+10.0;
+	local help_height = 220.0+(25.0*2)+10.0;
 
 	showCursor( true );
 
@@ -366,9 +364,9 @@ function( playerid )
 	local help = guiCreateElement( 6, "/р (текст) - полицейская волна", 10.0, 160.0, text_width, 25.0, false, stats_window );
 	local help = guiCreateElement( 6, "/розыск (ид игрока) - объявить розыск", 10.0, 180.0, text_width, 25.0, false, stats_window );
 	local help = guiCreateElement( 6, "/отменить розыск - отменить розыск", 10.0, 200.0, text_width, 25.0, false, stats_window );
+	local help = guiCreateElement( 6, "/владелец (номер машины) - узнать владельца авто", 10.0, 220.0, text_width, 25.0, false, stats_window );
 
-
-	close_window = guiCreateElement( 2, "Закрыть", 10.0, 200.0+25.0, help_width-20.0, 25.0, false, stats_window );
+	close_window = guiCreateElement( 2, "Закрыть", 10.0, 220.0+25.0, help_width-20.0, 25.0, false, stats_window );
 });
 
 addEventHandler( "jobmenu",
