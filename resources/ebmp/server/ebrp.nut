@@ -15,7 +15,7 @@ dofile("resources/ebmp/server/easyini.nut");
 
 local script = "ebrp";
 local database = sqlite( "ebmp-rp.db" );//база данных игроков
-local upd = "UPDATE: 30.04.2018";
+local upd = "UPDATE: 28.05.2018";
 local pogoda = true;//включенно лето, false - зима
 local novosti = 0;//в разработке
 local me_radius = 10.0;//радиус отображения действий игрока в чате
@@ -907,7 +907,7 @@ function scriptInit()
 	log( script + " Loaded!" );
 	log("");
 
-    setGameModeText( "vk.com/ebmprp "+upd );
+    setGameModeText( "discord.gg/CbgXuC3 "+upd );
     setMapName( "Empire Bay" );
     setSummer(pogoda);
 
