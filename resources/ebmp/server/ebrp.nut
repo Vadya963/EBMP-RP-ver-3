@@ -1,8 +1,8 @@
 //рандом
 function random(min=0, max=RAND_MAX)
 {
-    srand(getTickCount() * rand());
-    return (rand() % ((max + 1) - min)) + min;
+	srand(getTickCount() * rand());
+	return (rand() % ((max + 1) - min)) + min;
 }
 
 function getSpeed(vehicleid)
@@ -399,9 +399,9 @@ local car_rental = array(getMaxPlayers(), -1);
 function timeserver()
 {
 	local date = split(getDateTime(), ": ");//установка времени
-    chas = date[3].tointeger();
-    min = date[4].tointeger();
-    sec = date[5].tointeger();
+	chas = date[3].tointeger();
+	min = date[4].tointeger();
+	sec = date[5].tointeger();
 
 	foreach(i, playername in getPlayers()) 
 	{
@@ -721,7 +721,7 @@ function EngineState()
 				}
 				
 				local result = database.query( "SELECT COUNT() FROM carnumber_bd WHERE carnumber = '"+plate+"'" );
-			    if(result[1]["COUNT()"] == 1)
+				if(result[1]["COUNT()"] == 1)
 				{
 					result = database.query( "SELECT * FROM carnumber_bd WHERE carnumber = '"+plate+"'" );
 
@@ -907,23 +907,23 @@ function scriptInit()
 	log( script + " Loaded!" );
 	log("");
 
-    setGameModeText( "discord.gg/CbgXuC3 "+upd );
-    setMapName( "Empire Bay" );
-    setSummer(pogoda);
+	setGameModeText( "discord.gg/CbgXuC3 "+upd );
+	setMapName( "Empire Bay" );
+	setSummer(pogoda);
 
-    local date = split(getDateTime(), ": ");//установка времени
-    chas = date[3].tointeger();
-    min = date[4].tointeger();
+	local date = split(getDateTime(), ": ");//установка времени
+	chas = date[3].tointeger();
+	min = date[4].tointeger();
 
-    //сейв в базу данных
-    local stats_timer = timer( stats, 600000, -1 );//статистика сервера, сохранение в бд
+	//сейв в базу данных
+	local stats_timer = timer( stats, 600000, -1 );//статистика сервера, сохранение в бд
 
-    local rTimer = timer( timeserver, 1000, -1 );//инфа денег, времени и инфы бизнеса
-    local rTimer = timer( timesever_pogoda, 900000, -1 );//погода и payday
-    local rTimer = timer( tips_player, 300000, -1 );//подсказки
-    local prisontimer = timer( zona, 1000, -1 );//тюрьма
-    local rTimer = timer( search_player_cops, 10000, -1 );//поиск игрока для копов
-    local engine = timer( EngineState, 500, -1 );//двигатель вкл(выкл)
+	local rTimer = timer( timeserver, 1000, -1 );//инфа денег, времени и инфы бизнеса
+	local rTimer = timer( timesever_pogoda, 900000, -1 );//погода и payday
+	local rTimer = timer( tips_player, 300000, -1 );//подсказки
+	local prisontimer = timer( zona, 1000, -1 );//тюрьма
+	local rTimer = timer( search_player_cops, 10000, -1 );//поиск игрока для копов
+	local engine = timer( EngineState, 500, -1 );//двигатель вкл(выкл)
 	local rTimer = timer( mill, 1000, -1 );//пробег авто
 
 	//авторынок
@@ -983,7 +983,7 @@ addEventHandler( "onScriptInit", scriptInit );
 
 function nickNameChanged( playerid, newNickname, oldNickname )
 {
-    log("");
+	log("");
 	log(getPlayerName(playerid)+" kick za NickName");
 	log("");
 	kickPlayer( playerid );
@@ -1137,8 +1137,8 @@ function playerSpawn( playerid )
 		triggerClientEvent(playerid, "cursor", "");
 
 		local result = database.query( "SELECT COUNT() FROM account WHERE name = '"+playername+"'" );
-	    if(result[1]["COUNT()"] == 1)
-	    {
+		if(result[1]["COUNT()"] == 1)
+		{
 			triggerClientEvent(playerid, "login_okno", "");
 		}
 		else
@@ -1147,8 +1147,8 @@ function playerSpawn( playerid )
 		}
 
 		setPlayerPosition( playerid, 500.0, 1000.0, 20.0 );
-    	setPlayerHealth( playerid, 1000.0 );
-    	setPlayerRotation( playerid, 0.0, 0.0, 180.0 );
+		setPlayerHealth( playerid, 1000.0 );
+		setPlayerRotation( playerid, 0.0, 0.0, 180.0 );
 	}
 	else
 	{
@@ -1215,7 +1215,7 @@ addEventHandler( "onPlayerDeath", playerDeath );
 
 //чат
 addEventHandler("onPlayerChat",
-function(playerid, text) 
+function(playerid, text)
 {
 	if(logged[playerid] == 0)
 	{
@@ -1370,12 +1370,12 @@ function( playerid, cmd )
 	{
 		local playername = getPlayerName(playerid);
 
-	    local result = database.query( "SELECT COUNT() FROM account WHERE name = '"+playername+"'" );
-	    if(result[1]["COUNT()"] == 0)
-	    {
-	        database.query( "INSERT INTO account (name, password, money, bank, spawnx, spawny, spawnz, driverlic, car_slot, biznes, last_game, reg_server, heal, job, skin, serial, ip, job_p, job_p1, exp, can, weaponlic, bizneslic, ban, aresttimer, crimes, arest, tips, car_rental_fuel, drugs, fish, house, house_x, house_y, house_z, house_gun, gun) VALUES ('"+playername+"', '"+md5(cmd)+"', '500', '0', '-575.101', '1622.8', '-15.6957', '0', '0', '0', '0', '"+getDateTime()+"', '720.0', '0', '72', '"+getPlayerSerial(playerid)+"', '"+getPlayerIP(playerid)+"', '0', '0', '0', '0', '0', '0', '0', '-1', '0', '0', '0', '20.0', '0', '0', '0', '0', '0', '0', '0', '0')" );
+		local result = database.query( "SELECT COUNT() FROM account WHERE name = '"+playername+"'" );
+		if(result[1]["COUNT()"] == 0)
+		{
+			database.query( "INSERT INTO account (name, password, money, bank, spawnx, spawny, spawnz, driverlic, car_slot, biznes, last_game, reg_server, heal, job, skin, serial, ip, job_p, job_p1, exp, can, weaponlic, bizneslic, ban, aresttimer, crimes, arest, tips, car_rental_fuel, drugs, fish, house, house_x, house_y, house_z, house_gun, gun) VALUES ('"+playername+"', '"+md5(cmd)+"', '500', '0', '-575.101', '1622.8', '-15.6957', '0', '0', '0', '0', '"+getDateTime()+"', '720.0', '0', '72', '"+getPlayerSerial(playerid)+"', '"+getPlayerIP(playerid)+"', '0', '0', '0', '0', '0', '0', '0', '-1', '0', '0', '0', '20.0', '0', '0', '0', '0', '0', '0', '0', '0')" );
 
-	        result = database.query( "SELECT * FROM account WHERE name = '"+playername+"'" );
+			result = database.query( "SELECT * FROM account WHERE name = '"+playername+"'" );
 
 			stopSoundForPlayer(playerid);
 
@@ -1423,10 +1423,10 @@ function( playerid, cmd )
 	{
 		local playername = getPlayerName(playerid);
 
-	    local result = database.query( "SELECT COUNT() FROM account WHERE name = '"+playername+"'" );
-	    if(result[1]["COUNT()"] == 1)
-	    {
-	    	result = database.query( "SELECT * FROM account WHERE name = '"+playername+"'" );
+		local result = database.query( "SELECT COUNT() FROM account WHERE name = '"+playername+"'" );
+		if(result[1]["COUNT()"] == 1)
+		{
+			result = database.query( "SELECT * FROM account WHERE name = '"+playername+"'" );
 
 			if(result[1]["ban"] == 1)
 			{
@@ -2578,7 +2578,7 @@ function(playerid)
 		{
 			triggerClientEvent( playerid, "job_gps", randomx[playerid].tofloat(), randomy[playerid].tofloat());
 			triggerClientEvent( playerid, "job_taxi", randomx[playerid].tofloat(), randomy[playerid].tofloat());
-		    break;
+			break;
 		}
 	}
 });
@@ -4193,8 +4193,8 @@ function( playerid, cash )
 			}
 
 			local result = database.query( "SELECT COUNT() FROM carnumber_bd WHERE carnumber = '"+number+"'" );
-		    if(result[1]["COUNT()"] == 1)
-		    {
+			if(result[1]["COUNT()"] == 1)
+			{
 				result = database.query( "SELECT * FROM carnumber_bd WHERE carnumber = '"+number+"'" );
 
 				if(result[1]["fine"] > 0)
@@ -4897,13 +4897,13 @@ function( playerid )
 			else
 			{
 				crimes[playerid] += 5;
-		    	money[playerid] -= randomize*ratio1;
-		    	drugs[playerid] = randomize;
-		    	break;
+				money[playerid] -= randomize*ratio1;
+				drugs[playerid] = randomize;
+				break;
 			}
 		}
 
-    	foreach(i, playername in getPlayers())
+		foreach(i, playername in getPlayers())
 		{
 			if(job[i] == 5)
 			{
@@ -4911,9 +4911,9 @@ function( playerid )
 			}
 		}
 
-    	sendPlayerMessage(playerid, "Вы купили "+randomize+" граммов наркотиков за "+randomize*ratio1+"$, езжайте на свалку бруски и покладите пакет в здании с тремя гаражами, если вы умрете, то наркотики пропадут.", orange[0], orange[1], orange[2]);
+		sendPlayerMessage(playerid, "Вы купили "+randomize+" граммов наркотиков за "+randomize*ratio1+"$, езжайте на свалку бруски и покладите пакет в здании с тремя гаражами, если вы умрете, то наркотики пропадут.", orange[0], orange[1], orange[2]);
 
-    	log("");
+		log("");
 		log("[BUY DRUGS] "+getPlayerName(playerid)+" drugs "+randomize+" money "+randomize*ratio1);
 
 		narko = 1;
@@ -4935,11 +4935,11 @@ function( playerid )
 			return;
 		}
 
-    	money[playerid] += drugs[playerid]*ratio2;
+		money[playerid] += drugs[playerid]*ratio2;
 
-    	sendPlayerMessage(playerid, "Вы продали наркотики за "+drugs[playerid]*ratio2+"$", green[0], green[1], green[2]);
+		sendPlayerMessage(playerid, "Вы продали наркотики за "+drugs[playerid]*ratio2+"$", green[0], green[1], green[2]);
 
-    	log("");
+		log("");
 		log("[SELL DRUGS] "+getPlayerName(playerid)+" money "+drugs[playerid]*ratio2);
 
 		drugs[playerid] = 0;
@@ -4960,24 +4960,24 @@ function( playerid )
 	local randomize2 = random(1,5000);
 
 	local myPos = getPlayerPosition( playerid );
-    local uvelirka = isPointInCircle3D( myPos[0], myPos[1], myPos[2], -534.975,-42.5656,1.03805, 5.0 );
+	local uvelirka = isPointInCircle3D( myPos[0], myPos[1], myPos[2], -534.975,-42.5656,1.03805, 5.0 );
 
-    local odejda1 = isPointInCircle3D( myPos[0], myPos[1], myPos[2], -1292.83,1706.43,10.5592, 5.0 );//кингстон1
-    local odejda2 = isPointInCircle3D( myPos[0], myPos[1], myPos[2], -1425.29,1299.52,-13.7195, 5.0 );//кингстон2
-    local odejda3 = isPointInCircle3D( myPos[0], myPos[1], myPos[2], -1377.39,389.123,-23.7368, 5.0 );//хантерс-пойнт
-    local odejda4 = isPointInCircle3D( myPos[0], myPos[1], myPos[2], -1530.26,3.44592,-17.8468, 5.0 );//сэнд-айленд
-    local odejda5 = isPointInCircle3D( myPos[0], myPos[1], myPos[2], -374.002,-448.638,-17.2661, 5.0 );//сауспорт
-    local odejda6 = isPointInCircle3D( myPos[0], myPos[1], myPos[2], 347.46,41.2144,-24.1478, 5.0 );//ойстер-бэй1
-    local odejda7 = isPointInCircle3D( myPos[0], myPos[1], myPos[2], 429.424,305.764,-20.1786, 5.0 );//китайский квартал
-    local odejda8 = isPointInCircle3D( myPos[0], myPos[1], myPos[2], -38.9963,389.568,-13.9963, 5.0 );//ист-сайд
-    local odejda9 = isPointInCircle3D( myPos[0], myPos[1], myPos[2], -2.71507,560.705,-19.4068, 5.0 );//маленькая италия1
-    local odejda10 = isPointInCircle3D( myPos[0], myPos[1], myPos[2], 274.712,775.562,-21.2439, 5.0 );//маленькая италия2
-    local odejda11 = isPointInCircle3D( myPos[0], myPos[1], myPos[2], -518.197,874.753,-19.3224, 5.0 );//аптаун
-    local odejda12 = isPointInCircle3D( myPos[0], myPos[1], myPos[2], -624.275,291.753,-0.267097, 5.0 );//вест-сайд
-    local odejda13 = isPointInCircle3D( myPos[0], myPos[1], myPos[2], 415.433,-290.474,-20.1622, 5.0 );//ойстер-бэй2
+	local odejda1 = isPointInCircle3D( myPos[0], myPos[1], myPos[2], -1292.83,1706.43,10.5592, 5.0 );//кингстон1
+	local odejda2 = isPointInCircle3D( myPos[0], myPos[1], myPos[2], -1425.29,1299.52,-13.7195, 5.0 );//кингстон2
+	local odejda3 = isPointInCircle3D( myPos[0], myPos[1], myPos[2], -1377.39,389.123,-23.7368, 5.0 );//хантерс-пойнт
+	local odejda4 = isPointInCircle3D( myPos[0], myPos[1], myPos[2], -1530.26,3.44592,-17.8468, 5.0 );//сэнд-айленд
+	local odejda5 = isPointInCircle3D( myPos[0], myPos[1], myPos[2], -374.002,-448.638,-17.2661, 5.0 );//сауспорт
+	local odejda6 = isPointInCircle3D( myPos[0], myPos[1], myPos[2], 347.46,41.2144,-24.1478, 5.0 );//ойстер-бэй1
+	local odejda7 = isPointInCircle3D( myPos[0], myPos[1], myPos[2], 429.424,305.764,-20.1786, 5.0 );//китайский квартал
+	local odejda8 = isPointInCircle3D( myPos[0], myPos[1], myPos[2], -38.9963,389.568,-13.9963, 5.0 );//ист-сайд
+	local odejda9 = isPointInCircle3D( myPos[0], myPos[1], myPos[2], -2.71507,560.705,-19.4068, 5.0 );//маленькая италия1
+	local odejda10 = isPointInCircle3D( myPos[0], myPos[1], myPos[2], 274.712,775.562,-21.2439, 5.0 );//маленькая италия2
+	local odejda11 = isPointInCircle3D( myPos[0], myPos[1], myPos[2], -518.197,874.753,-19.3224, 5.0 );//аптаун
+	local odejda12 = isPointInCircle3D( myPos[0], myPos[1], myPos[2], -624.275,291.753,-0.267097, 5.0 );//вест-сайд
+	local odejda13 = isPointInCircle3D( myPos[0], myPos[1], myPos[2], 415.433,-290.474,-20.1622, 5.0 );//ойстер-бэй2
 
 	if(uvelirka || odejda1 || odejda2 || odejda3 || odejda4 || odejda5 || odejda6 || odejda7 || odejda8 || odejda9 || odejda10 || odejda11 || odejda12 || odejda13)
-    {
+	{
 		if(ograblenie == 1)
 		{
 			sendPlayerMessage(playerid, "[ERROR] Ограбление доступно один раз в 10 мин.", red[0], red[1], red[2]);
@@ -5012,11 +5012,11 @@ function( playerid )
 	}	
 
 	if(uvelirka)
-    {
-    	crimes[playerid] += 10;
-    	money[playerid] += randomize1;
+	{
+		crimes[playerid] += 10;
+		money[playerid] += randomize1;
 
-    	foreach(i, playername in getPlayers())
+		foreach(i, playername in getPlayers())
 		{
 			if(job[i] == 5)
 			{
@@ -5024,18 +5024,18 @@ function( playerid )
 			}
 		}
 
-    	sendPlayerMessage(playerid, "Вам удалось ограбить ювелирку и унести украшений на сумму "+randomize1+"$", green[0], green[1], green[2]);
+		sendPlayerMessage(playerid, "Вам удалось ограбить ювелирку и унести украшений на сумму "+randomize1+"$", green[0], green[1], green[2]);
 
-    	log("");
+		log("");
 		log("[OGRABLENIE] "+getPlayerName(playerid)+" money "+randomize1);
-    }
+	}
 
-    if(odejda1 || odejda2 || odejda3 || odejda4 || odejda5 || odejda6 || odejda7 || odejda8 || odejda10 || odejda11 || odejda12 || odejda13)
-    {
-    	crimes[playerid] += 5;
-    	money[playerid] += randomize2;
+	if(odejda1 || odejda2 || odejda3 || odejda4 || odejda5 || odejda6 || odejda7 || odejda8 || odejda10 || odejda11 || odejda12 || odejda13)
+	{
+		crimes[playerid] += 5;
+		money[playerid] += randomize2;
 
-    	foreach(i, playername in getPlayers())
+		foreach(i, playername in getPlayers())
 		{
 			if(job[i] == 5)
 			{	
@@ -5082,11 +5082,11 @@ function( playerid )
 			}
 		}
 
-    	sendPlayerMessage(playerid, "Вам удалось ограбить магазин одежды и обчистить кассу на сумму "+randomize2+"$", green[0], green[1], green[2]);
+		sendPlayerMessage(playerid, "Вам удалось ограбить магазин одежды и обчистить кассу на сумму "+randomize2+"$", green[0], green[1], green[2]);
 
-    	log("");
+		log("");
 		log("[OGRABLENIE] "+getPlayerName(playerid)+" money "+randomize2);
-    }
+	}
 });
 
 //мерия
@@ -5724,8 +5724,8 @@ function( playerid, id)
 	}
 
 	local result = database.query( "SELECT COUNT() FROM carnumber_bd WHERE carnumber = '"+number+"'" );
-    if(result[1]["COUNT()"] == 1)
-    {
+	if(result[1]["COUNT()"] == 1)
+	{
 		sendPlayerMessage(playerid, "[ERROR] Этот номер числится в базе автомобилей, пожалуйста повторите попытку снова.", red[0], red[1], red[2] );
 		return;
 	}
@@ -6218,7 +6218,7 @@ function(playerid, name)
 	}
 
 	local myPos = getPlayerPosition( playerid );
-    local fuel1 = isPointInCircle3D( myPos[0], myPos[1], myPos[2], 338.758,875.07,-20.1312, 5.0 );
+	local fuel1 = isPointInCircle3D( myPos[0], myPos[1], myPos[2], 338.758,875.07,-20.1312, 5.0 );
 	local fuel2 = isPointInCircle3D( myPos[0], myPos[1], myPos[2], -710.287,1762.62,-14.8309, 5.0 );
 	local fuel3 = isPointInCircle3D( myPos[0], myPos[1], myPos[2], -1592.31,942.639,-4.02328, 5.0 );
 	local fuel4 = isPointInCircle3D( myPos[0], myPos[1], myPos[2], -1679.5,-232.035,-19.1619, 5.0 );
@@ -7108,8 +7108,8 @@ function(playerid, q, w, e, r, t, y)
 			local vehicleid = getPlayerVehicle(playerid);
 			local plate = getVehiclePlateText(vehicleid);
 			local result = database.query( "SELECT COUNT() FROM carnumber_bd WHERE carnumber = '"+plate+"'" );
-		    if(result[1]["COUNT()"] == 1)
-		    {
+			if(result[1]["COUNT()"] == 1)
+			{
 				result = database.query( "SELECT * FROM carnumber_bd WHERE carnumber = '"+plate+"'" );
 
 				if(result[1]["ownername"] != getPlayerName( playerid ))
@@ -7123,7 +7123,7 @@ function(playerid, q, w, e, r, t, y)
 
 				repair_tanker -= 5;
 
-        		setVehicleColour(vehicleid, q,w,e,r,t,y);
+				setVehicleColour(vehicleid, q,w,e,r,t,y);
 
 				sendPlayerMessage(playerid, "Вы покрасили автомобиль за "+repair_price*5+"$", orange[0], orange[1], orange[2]);
 			}
@@ -7200,8 +7200,8 @@ function(playerid, q, w)
 			local vehicleid = getPlayerVehicle(playerid);
 			local plate = getVehiclePlateText(vehicleid);
 			local result = database.query( "SELECT COUNT() FROM carnumber_bd WHERE carnumber = '"+plate+"'" );
-		    if(result[1]["COUNT()"] == 1)
-		    {
+			if(result[1]["COUNT()"] == 1)
+			{
 				result = database.query( "SELECT * FROM carnumber_bd WHERE carnumber = '"+plate+"'" );
 
 				if(result[1]["ownername"] != getPlayerName( playerid ))
@@ -7280,8 +7280,8 @@ function(playerid)
 
 		local plate = getVehiclePlateText(vehicleid);
 		local result = database.query( "SELECT COUNT() FROM carnumber_bd WHERE carnumber = '"+plate+"'" );
-	    if(result[1]["COUNT()"] == 1)
-	    {
+		if(result[1]["COUNT()"] == 1)
+		{
 			result = database.query( "SELECT * FROM carnumber_bd WHERE carnumber = '"+plate+"'" );
 
 			if(result[1]["ownername"] != getPlayerName( playerid ))
@@ -7456,7 +7456,7 @@ function(playerid, name)
 	}
 
 	local myPos = getPlayerPosition( playerid );
-    local fuel1 = isPointInCircle3D( myPos[0], myPos[1], myPos[2], 338.758,875.07,-20.1312, 5.0 );
+	local fuel1 = isPointInCircle3D( myPos[0], myPos[1], myPos[2], 338.758,875.07,-20.1312, 5.0 );
 	local fuel2 = isPointInCircle3D( myPos[0], myPos[1], myPos[2], -710.287,1762.62,-14.8309, 5.0 );
 	local fuel3 = isPointInCircle3D( myPos[0], myPos[1], myPos[2], -1592.31,942.639,-4.02328, 5.0 );
 	local fuel4 = isPointInCircle3D( myPos[0], myPos[1], myPos[2], -1679.5,-232.035,-19.1619, 5.0 );
@@ -7512,10 +7512,10 @@ function(playerid, name)
 	if( isPlayerInVehicle(playerid) ) 
 	{
 		sendPlayerMessage(playerid, "[ERROR] Выйдите из машины.", red[0], red[1], red[2] );
-        return;
-    }
+		return;
+	}
 
-    if(can[playerid] == 0)
+	if(can[playerid] == 0)
 	{
 		sendPlayerMessage(playerid, "[ERROR] У вас не куплена канистра с топливом.", red[0], red[1], red[2]);
 		return;
@@ -7566,14 +7566,14 @@ function(playerid, id)
 		return;
 	}
 
-    if( !isPlayerInVehicle(playerid) ) 
+	if( !isPlayerInVehicle(playerid) ) 
 	{
 		sendPlayerMessage(playerid, "[ERROR] Вы не в машине.", red[0], red[1], red[2] );
-        return;
-    }
+		return;
+	}
 
 	local myPos = getPlayerPosition( playerid );
-    local fuel1 = isPointInCircle3D( myPos[0], myPos[1], myPos[2], 338.758,875.07,-20.1312, 5.0 );
+	local fuel1 = isPointInCircle3D( myPos[0], myPos[1], myPos[2], 338.758,875.07,-20.1312, 5.0 );
 	local fuel2 = isPointInCircle3D( myPos[0], myPos[1], myPos[2], -710.287,1762.62,-14.8309, 5.0 );
 	local fuel3 = isPointInCircle3D( myPos[0], myPos[1], myPos[2], -1592.31,942.639,-4.02328, 5.0 );
 	local fuel4 = isPointInCircle3D( myPos[0], myPos[1], myPos[2], -1679.5,-232.035,-19.1619, 5.0 );
@@ -7582,7 +7582,7 @@ function(playerid, id)
 	local fuel7 = isPointInCircle3D( myPos[0], myPos[1], myPos[2], 112.687,181.302,-18.7977, 5.0 );
 	local fuel8 = isPointInCircle3D( myPos[0], myPos[1], myPos[2], 547.921,2.62598,-17.0294, 5.0 );
 
-    local vehicleid = getPlayerVehicle( playerid );
+	local vehicleid = getPlayerVehicle( playerid );
 	local vm = getVehicleModel(vehicleid);
 	local gas = getVehicleFuel(vehicleid);
 	local plate = getVehiclePlateText( vehicleid );
@@ -7632,8 +7632,8 @@ function(playerid, id)
 			setVehicleDirtLevel( vehicleid, 0.0 );
 
 			local result = database.query( "SELECT COUNT() FROM carnumber_bd WHERE carnumber = '"+plate+"'" );
-		    if(result[1]["COUNT()"] == 1)
-		    {
+			if(result[1]["COUNT()"] == 1)
+			{
 				database.query( "UPDATE carnumber_bd SET fuel = fuel + "+id+" WHERE carnumber = '"+plate+"'");
 			}
 		}
@@ -7680,7 +7680,7 @@ function roulette(playerid, randomize)
 {
 	for (local i = 0; i < chislo; i++)
 	{
-	    if(randomize == red[i])
+		if(randomize == red[i])
 		{
 			sendPlayerMessage(playerid, "====[ Казино Иллюзия ]====", yellow[0], yellow[1], yellow[2]);
 			sendPlayerMessage(playerid, "Выпало "+randomize+" красное", yellow[0], yellow[1], yellow[2]);
@@ -7688,8 +7688,8 @@ function roulette(playerid, randomize)
 
 		if(randomize == black[i])
 		{
-		    sendPlayerMessage(playerid, "====[ Казино Иллюзия ]====", yellow[0], yellow[1], yellow[2]);
-		    sendPlayerMessage(playerid, "Выпало "+randomize+" черное", yellow[0], yellow[1], yellow[2]);
+			sendPlayerMessage(playerid, "====[ Казино Иллюзия ]====", yellow[0], yellow[1], yellow[2]);
+			sendPlayerMessage(playerid, "Выпало "+randomize+" черное", yellow[0], yellow[1], yellow[2]);
 		}
 	}
 
@@ -7713,9 +7713,9 @@ function win_roulette(playerid, cash, ratio)
 addCommandHandler("рулетка",
 function(playerid, id, cash)
 {
-    local id = id.tostring();
-    local cash = cash.tointeger();
-    local randomize = random(0,36);
+	local id = id.tostring();
+	local cash = cash.tointeger();
+	local randomize = random(0,36);
 
 	if(logged[playerid] == 0)
 	{
@@ -7734,89 +7734,89 @@ function(playerid, id, cash)
 			return;
 		}
 		if(money[playerid] < cash)
-	    {
-	    	sendPlayerMessage(playerid, "[ERROR] Недостаточно средств.", red[0], red[1], red[2]);
-	    	return;
-	    }
+		{
+			sendPlayerMessage(playerid, "[ERROR] Недостаточно средств.", red[0], red[1], red[2]);
+			return;
+		}
 
-	    if(id == "красное" || id == "черное" || id == "четное" || id == "нечетное" || id == "1-18" || id == "19-36" || id == "1-12" || id == "2-12" || id == "3-12" || id == "2-1" || id == "2-2" || id == "2-3")
-	    {
-	    	roulette(playerid, randomize);
+		if(id == "красное" || id == "черное" || id == "четное" || id == "нечетное" || id == "1-18" || id == "19-36" || id == "1-12" || id == "2-12" || id == "3-12" || id == "2-1" || id == "2-2" || id == "2-3")
+		{
+			roulette(playerid, randomize);
 
-	    	money[playerid] -= cash;
+			money[playerid] -= cash;
 
-		    	if(id == "красное" || id == "черное" )
-			    {
-			    	for (local i = 0; i < chislo; i++)
-			    	{
-				        if(id == "красное" && randomize == red[i] )
-				        {
-				            win_roulette(playerid, cash, 2);
-				        }
+				if(id == "красное" || id == "черное" )
+				{
+					for (local i = 0; i < chislo; i++)
+					{
+						if(id == "красное" && randomize == red[i] )
+						{
+							win_roulette(playerid, cash, 2);
+						}
 
-				       	if(id == "черное" && randomize == black[i])
-				        {
-				            win_roulette(playerid, cash, 2);
-				        }
-			    	}
-		    	}
+						if(id == "черное" && randomize == black[i])
+						{
+							win_roulette(playerid, cash, 2);
+						}
+					}
+				}
 
-	    		if(id == "четное" && randomize%2 == 0 )
-		        {
-		            win_roulette(playerid, cash, 2);
-		        }
+				if(id == "четное" && randomize%2 == 0 )
+				{
+					win_roulette(playerid, cash, 2);
+				}
 
-		       	if(id == "нечетное" && randomize%2 == 1)
-		        {
-		            win_roulette(playerid, cash, 2);
-		        }
+				if(id == "нечетное" && randomize%2 == 1)
+				{
+					win_roulette(playerid, cash, 2);
+				}
 
-		        if(id == "1-18" && randomize >= 1 && randomize <= 18 )
-		        {
-		            win_roulette(playerid, cash, 2);
-		        }
+				if(id == "1-18" && randomize >= 1 && randomize <= 18 )
+				{
+					win_roulette(playerid, cash, 2);
+				}
 
-		       	if(id == "19-36" && randomize >= 19 && randomize <= 36 )
-		        {
-		            win_roulette(playerid, cash, 2);
-		        }
+				if(id == "19-36" && randomize >= 19 && randomize <= 36 )
+				{
+					win_roulette(playerid, cash, 2);
+				}
 
-		        if(id == "1-12" && randomize >= 1 && randomize <= 12 )
-		        {
-		            win_roulette(playerid, cash, 3);
-		        }
+				if(id == "1-12" && randomize >= 1 && randomize <= 12 )
+				{
+					win_roulette(playerid, cash, 3);
+				}
 
-		        if(id == "2-12" && randomize >= 13 && randomize <= 24 )
-		        {
-		            win_roulette(playerid, cash, 3);
-		        }
+				if(id == "2-12" && randomize >= 13 && randomize <= 24 )
+				{
+					win_roulette(playerid, cash, 3);
+				}
 
-		        if(id == "3-12" && randomize >= 25 && randomize <= 36 )
-		        {
-		            win_roulette(playerid, cash, 3);
-		        }
+				if(id == "3-12" && randomize >= 25 && randomize <= 36 )
+				{
+					win_roulette(playerid, cash, 3);
+				}
 
 				if(id == "2-1" || id == "2-2" || id == "2-3")
-			    {
-			    	for (local i = 0; i < chislo_to; i++)
-			    	{
-				        if(id == "2-1" && randomize == to1[i] )
-				        {
-				            win_roulette(playerid, cash, 3);
-				        }
+				{
+					for (local i = 0; i < chislo_to; i++)
+					{
+						if(id == "2-1" && randomize == to1[i] )
+						{
+							win_roulette(playerid, cash, 3);
+						}
 
-				       	if(id == "2-2" && randomize == to2[i])
-				        {
-				            win_roulette(playerid, cash, 3);
-				        }
+						if(id == "2-2" && randomize == to2[i])
+						{
+							win_roulette(playerid, cash, 3);
+						}
 
-				        if(id == "2-3" && randomize == to3[i])
-				        {
-				            win_roulette(playerid, cash, 3);
-				        }
-			    	}
-		    	}
-	    }
+						if(id == "2-3" && randomize == to3[i])
+						{
+							win_roulette(playerid, cash, 3);
+						}
+					}
+				}
+		}
 	}
 	else
 	{
@@ -7838,20 +7838,20 @@ function(playerid, cash)
 	local check = isPointInCircle3D( myPos[0], myPos[1], myPos[2], -539.082,-91.9283,0.436483, 5.0 );
 
 	if(check)
-    {
+	{
 		if(money[playerid] < cash)
-    	{
-    		sendPlayerMessage(playerid, "[ERROR] Недостаточно средств.", red[0], red[1], red[2]);
-    		return;
-    	}
+		{
+			sendPlayerMessage(playerid, "[ERROR] Недостаточно средств.", red[0], red[1], red[2]);
+			return;
+		}
 
-    	if( cash < 1 )
+		if( cash < 1 )
 		{
 			sendPlayerMessage(playerid, "[ERROR] Введите значение больше 0", red[0], red[1], red[2]);
 			return;
 		}
 
-    	sendPlayerMessage(playerid, "====[ Казино Иллюзия ]====", yellow[0], yellow[1], yellow[2]);
+		sendPlayerMessage(playerid, "====[ Казино Иллюзия ]====", yellow[0], yellow[1], yellow[2]);
 		sendPlayerMessage(playerid, "Выпало: "+randomize1+" - "+randomize2+" - "+randomize3, yellow[0], yellow[1], yellow[2]);
 
 		money[playerid] -= cash;
@@ -7863,7 +7863,7 @@ function(playerid, cash)
 			sendPlayerMessage(playerid, "Вы выиграли "+cash*ratio1+"$ :-)", green[0], green[1], green[2]);
 
 			log("");
-            log("[SLOT WIN] "+getPlayerName(playerid)+" cash "+cash*ratio1+" money "+money[playerid]);
+			log("[SLOT WIN] "+getPlayerName(playerid)+" cash "+cash*ratio1+" money "+money[playerid]);
 			return;
 		}
 		
@@ -8171,11 +8171,11 @@ function(playerid, r, g, b, r1, g1, b1)
 		}
 	}
 
-    if(isPlayerInVehicle(playerid)) 
+	if(isPlayerInVehicle(playerid)) 
 	{
-        local vehicleid = getPlayerVehicle(playerid);
-        setVehicleColour(vehicleid, r.tointeger(), g.tointeger(), b.tointeger(), r1.tointeger(), g1.tointeger(), b1.tointeger());
-    }
+		local vehicleid = getPlayerVehicle(playerid);
+		setVehicleColour(vehicleid, r.tointeger(), g.tointeger(), b.tointeger(), r1.tointeger(), g1.tointeger(), b1.tointeger());
+	}
 });
 
 addCommandHandler( "дие",
@@ -8251,7 +8251,7 @@ function( playerid, id, id1 )
 	}
 
 	local myPos = getPlayerPosition(id);
-    setPlayerPosition(playerid, myPos[0], myPos[1], myPos[2]+id1.tointeger());
+	setPlayerPosition(playerid, myPos[0], myPos[1], myPos[2]+id1.tointeger());
 });
 
 addCommandHandler( "тпигрок",
@@ -8274,7 +8274,7 @@ function( playerid, id )
 	}
 
 	local myPos = getPlayerPosition(playerid);
-    setPlayerPosition(id, myPos[0], myPos[1], myPos[2]+2);
+	setPlayerPosition(id, myPos[0], myPos[1], myPos[2]+2);
 });
 
 addCommandHandler( "сет",
@@ -8357,13 +8357,13 @@ function( playerid )
 		}
 	}
 
-    local list = "";
+	local list = "";
  
-    foreach(i, playername in getPlayers())
+	foreach(i, playername in getPlayers())
 	{
 		list += " " +playername+ "(" +i+ ")["+getPlayerPing(i)+"], ";
-    }
- 	
+	}
+	
 	sendPlayerMessage( playerid,"Всего игроков:"+list, lyme[0], lyme[1], lyme[2]);
 });
 
@@ -8385,108 +8385,108 @@ function(playerid, ...)
 		}
 	}
 
-    // for info about reading modes check out
-    // http://www.cplusplus.com/reference/cstdio/fopen/
-    local posfile = file("positions.txt", "a");
-    local pos;
+	// for info about reading modes check out
+	// http://www.cplusplus.com/reference/cstdio/fopen/
+	local posfile = file("positions.txt", "a");
+	local pos;
 
-    if (isPlayerInVehicle(playerid)) 
-    {
-        pos = getVehiclePosition( getPlayerVehicle(playerid) );
-    } else 
-    {
-        pos = getPlayerPosition( playerid );
-    }
+	if (isPlayerInVehicle(playerid)) 
+	{
+		pos = getVehiclePosition( getPlayerVehicle(playerid) );
+	} else 
+	{
+		pos = getPlayerPosition( playerid );
+	}
 
-    // read rest of the input string (if there any)
-    // concat it, and push to the pos array
-    if (vargv.len() > 0) 
-    {
-        pos.push(vargv.reduce(function(a, b) 
-        {
-            return a + " " + b;
-        }));
-    }
+	// read rest of the input string (if there any)
+	// concat it, and push to the pos array
+	if (vargv.len() > 0) 
+	{
+		pos.push(vargv.reduce(function(a, b) 
+		{
+			return a + " " + b;
+		}));
+	}
 
-    // iterate over px,y,z]
-    foreach (idx, value in pos) 
-    {
+	// iterate over px,y,z]
+	foreach (idx, value in pos) 
+	{
 
-        // convert value to string,
-        // and iterate over each char
-        local coord = value.tostring();
-        for (local i = 0; i < coord.len(); i++) 
-        {
-            posfile.writen(coord[i], 'b');
-        }
+		// convert value to string,
+		// and iterate over each char
+		local coord = value.tostring();
+		for (local i = 0; i < coord.len(); i++) 
+		{
+			posfile.writen(coord[i], 'b');
+		}
 
-        // also write whitespace after the number
-        posfile.writen(',', 'b');
-    }
+		// also write whitespace after the number
+		posfile.writen(',', 'b');
+	}
 
-    // and dont forget push newline before closing
-    posfile.writen('\n', 'b');
-    posfile.close();
+	// and dont forget push newline before closing
+	posfile.writen('\n', 'b');
+	posfile.close();
 
-    sendPlayerMessage(playerid, "Позиция сохранена; Посмотреть её можете в файле positions.txt", lyme[0], lyme[1], lyme[2]);
+	sendPlayerMessage(playerid, "Позиция сохранена; Посмотреть её можете в файле positions.txt", lyme[0], lyme[1], lyme[2]);
 });
 
 addEventHandler( "avar",
-    function( playerid )
-    {
-    if ( !isPlayerInVehicle(playerid) ) {
-        return;
-    }
+	function( playerid )
+	{
+	if ( !isPlayerInVehicle(playerid) ) {
+		return;
+	}
 
-    if(sead[playerid] == 1)
+	if(sead[playerid] == 1)
 	{
 		sendPlayerMessage( playerid, "[ERROR] Не мешай водителю.", red[0], red[1], red[2] );
 		return;
 	}
  
-    local vehicleid = getPlayerVehicle(playerid);
-    local prevState = getIndicatorLightState(vehicleid, INDICATOR_LEFT);
+	local vehicleid = getPlayerVehicle(playerid);
+	local prevState = getIndicatorLightState(vehicleid, INDICATOR_LEFT);
 	local prevState = getIndicatorLightState(vehicleid, INDICATOR_RIGHT);
  
-    setIndicatorLightState(vehicleid, INDICATOR_LEFT, !prevState);
+	setIndicatorLightState(vehicleid, INDICATOR_LEFT, !prevState);
 	setIndicatorLightState(vehicleid, INDICATOR_RIGHT, !prevState);
-    }
+	}
 );
 addEventHandler("left", 
 function(playerid) 
 {
-    if ( !isPlayerInVehicle(playerid) ) {
-        return;
-    }
+	if ( !isPlayerInVehicle(playerid) ) {
+		return;
+	}
  
-    if(sead[playerid] == 1)
+	if(sead[playerid] == 1)
 	{
 		sendPlayerMessage( playerid, "[ERROR] Не мешай водителю.", red[0], red[1], red[2] );
 		return;
 	}
 
-    local vehicleid = getPlayerVehicle(playerid);
-    local prevState = getIndicatorLightState(vehicleid, INDICATOR_LEFT);
+	local vehicleid = getPlayerVehicle(playerid);
+	local prevState = getIndicatorLightState(vehicleid, INDICATOR_LEFT);
  
-    setIndicatorLightState(vehicleid, INDICATOR_LEFT, !prevState);
+	setIndicatorLightState(vehicleid, INDICATOR_LEFT, !prevState);
 });
 addEventHandler("right", 
 function(playerid) 
 {
-    if ( !isPlayerInVehicle(playerid) ) {
-        return;
-    }
+	if ( !isPlayerInVehicle(playerid) ) {
+		return;
+	}
 
-    if(sead[playerid] == 1)
+	if(sead[playerid] == 1)
 	{
 		sendPlayerMessage( playerid, "[ERROR] Не мешай водителю.", red[0], red[1], red[2] );
 		return;
 	}
  
-    local vehicleid = getPlayerVehicle(playerid);
-    local prevState = getIndicatorLightState(vehicleid, INDICATOR_RIGHT);
+	local vehicleid = getPlayerVehicle(playerid);
+	local prevState = getIndicatorLightState(vehicleid, INDICATOR_RIGHT);
  
-    setIndicatorLightState(vehicleid, INDICATOR_RIGHT, !prevState);
+	setIndicatorLightState(vehicleid, INDICATOR_RIGHT, !prevState);
 });
 
 addCommandHandler( "очистить",
@@ -8501,22 +8501,22 @@ function( playerid )
 function consoleInput( command, params )
 {
 	log("");
-  	log( "Commands - " +command );
+	log( "Commands - " +command );
 
-  	if(command == "list")
-  	{
-  		local list = "";
+	if(command == "list")
+	{
+		local list = "";
  
-    	foreach(i, playername in getPlayers())
+		foreach(i, playername in getPlayers())
 		{
 			list += " " +playername+ "(" +i+ ")["+getPlayerPing(i)+"], ";
-    	}
+		}
 
-    	log("Online:" + list);
+		log("Online:" + list);
 		return;
 	}
 
 
-    log("");
+	log("");
 }
 addEventHandler( "onConsoleInput", consoleInput );
