@@ -1065,7 +1065,7 @@ function playerConnect( playerid, name, ip, serial )
 		}
 	}
 
-	sendPlayerMessage(playerid, "Добро пожаловать на EBMP-nonRP", turquoise[0], turquoise[1], turquoise[2]);
+	sendPlayerMessage(playerid, "Добро пожаловать на EBMP-RPG", turquoise[0], turquoise[1], turquoise[2]);
 	sendPlayerMessage(playerid, "Чтобы узнать команды пропиши /помощь", turquoise[0], turquoise[1], turquoise[2]);
 	sendPlayerMessage(playerid, "Для управления автомобилем вам необходимо купить права, это можно сделать в мерии (зеленый пятиугольник), добраться до неё можно на метро. Чтобы открыть карту нажмите М", yellow[0], yellow[1], yellow[2]);
 	sendPlayerMessage(playerid, "Звезды на карте это работы.", green[0], green[1], green[2]);
