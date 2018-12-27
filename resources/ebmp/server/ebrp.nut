@@ -742,6 +742,14 @@ function EngineState()
 
 function stats()
 {
+	foreach(playerid, playername in getPlayers()) 
+	{
+		local myPos = getPlayerPosition(playerid);
+		local vehicleid = getPlayerVehicle(playerid);
+
+		database.query( "UPDATE account SET money = '"+money[playerid]+"', bank = '"+bank[playerid]+"', driverlic = '"+driverlic[playerid]+"', car_slot = '"+car_slot[playerid]+"', biznes = '"+biznes[playerid]+"', last_game = '"+getDateTime()+"', heal = '"+getPlayerHealth(playerid)+"', job = '"+job[playerid]+"', skin = '"+skin[playerid]+"', job_p = '"+job_p[playerid]+"', job_p1 = '"+job_p1[playerid]+"', exp = '"+exp[playerid]+"', can = '"+can[playerid]+"', weaponlic = '"+weaponlic[playerid]+"', bizneslic = '"+bizneslic[playerid]+"', crimes = '"+crimes[playerid]+"', arest = '"+arest[playerid]+"', tips = '"+tips[playerid]+"', car_rental_fuel = '"+car_rental_fuel[playerid]+"', drugs = '"+drugs[playerid]+"', fish = '"+fish[playerid]+"', house = '"+house[playerid]+"', house_x = '"+house_x[playerid]+"', house_y = '"+house_y[playerid]+"', house_z = '"+house_z[playerid]+"', house_gun = '"+house_gun[playerid]+"', gun = '"+gun[playerid]+"', aresttimer = '"+aresttimer[playerid]+"', serial = '"+getPlayerSerial(playerid)+"', ip = '"+getPlayerIP(playerid)+"', spawnx = '"+myPos[0]+"', spawny = '"+myPos[1]+"', spawnz = '"+myPos[2]+"' WHERE name = '"+playername+"'");
+	}
+
 	database.query( "UPDATE biznes_bd SET price = '"+fuel_price+"', tanker = '"+fuel_tanker+"', money = '"+fuel_money+"', ownername = '"+fuel_ownername+"' WHERE name = 'Filling_Stations'");
 	database.query( "UPDATE biznes_bd SET price = '"+eda_price+"', tanker = '"+eda_tanker+"', money = '"+eda_money+"', ownername = '"+eda_ownername+"' WHERE name = 'Eda_Bar'");
 	database.query( "UPDATE biznes_bd SET price = '"+repair_price+"', tanker = '"+repair_tanker+"', money = '"+repair_money+"', ownername = '"+repair_ownername+"' WHERE name = 'Repair'");
